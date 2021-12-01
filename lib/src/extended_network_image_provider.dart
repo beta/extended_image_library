@@ -24,6 +24,7 @@ abstract class ExtendedNetworkImageProvider
     bool cacheRawData,
     String? imageCacheName,
     Duration? cacheMaxAge,
+    String? proxy,
   }) = network_image.ExtendedNetworkImageProvider;
 
   /// The name of [ImageCache], you can define custom [ImageCache] to store this provider.
@@ -71,6 +72,9 @@ abstract class ExtendedNetworkImageProvider
   /// After this time the cache is expired and the image is reloaded.
   Duration? get cacheMaxAge;
 
+  /// HTTP proxy used to request the image.
+  String? get proxy;
+
   @override
   ImageStreamCompleter load(
       ExtendedNetworkImageProvider key, DecoderCallback decode);
@@ -79,8 +83,4 @@ abstract class ExtendedNetworkImageProvider
   Future<Uint8List?> getNetworkImageData({
     StreamController<ImageChunkEvent>? chunkEvents,
   });
-
-  ///HttpClient for network, it's null on web
-  static dynamic get httpClient =>
-      network_image.ExtendedNetworkImageProvider.httpClient;
 }

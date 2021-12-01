@@ -1,14 +1,15 @@
 # extended_image_library
 
-[![pub package](https://img.shields.io/pub/v/extended_image_library.svg)](https://pub.dartlang.org/packages/extended_image_library)
+This repo is forked from [fluttercandies/extended_image_library](https://github.com/fluttercandies/extended_image_library) with the following feature(s) added:
 
-package library for extended_image
+- HTTP proxy support (not implemented in web platform yet)
 
-# extended_image
+## Version correspondence
 
-[![pub package](https://img.shields.io/pub/v/extended_image.svg)](https://pub.dartlang.org/packages/extended_image)
+| Version | Upstream version |
+| ------- | ---------------- |
+| 1.0.0   | 3.1.0            |
 
-A powerful official extension library of image, which support placeholder(loading)/ failed state, cache network, zoom pan image, photo view, slide out page, editor(crop,rotate,flip), paint custom etc.
+## License
 
-![img](https://github.com/fluttercandies/Flutter_Candies/blob/master/gif/extended_image/editor.gif)
-
+MIT

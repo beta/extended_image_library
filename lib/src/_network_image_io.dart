@@ -32,6 +32,7 @@ class ExtendedNetworkImageProvider
     this.cancelToken,
     this.imageCacheName,
     this.cacheMaxAge,
+    this.proxy,
   });
 
   /// The name of [ImageCache], you can define custom [ImageCache] to store this provider.
@@ -89,6 +90,9 @@ class ExtendedNetworkImageProvider
   /// After this time the cache is expired and the image is reloaded.
   @override
   final Duration? cacheMaxAge;
+
+  /// HTTP proxy in the format of "host:port".
+  final String? proxy;
 
   @override
   ImageStreamCompleter load(
@@ -263,7 +267,7 @@ class ExtendedNetworkImageProvider
   }
 
   Future<HttpClientResponse> _getResponse(Uri resolved) async {
-    final HttpClientRequest request = await httpClient.getUrl(resolved);
+    final HttpClientRequest request = await _httpClient.getUrl(resolved);
     headers?.forEach((String name, String value) {
       request.headers.add(name, value);
     });
@@ -355,15 +359,13 @@ class ExtendedNetworkImageProvider
     );
   }
 
-  // Do not access this field directly; use [_httpClient] instead.
-  // We set `autoUncompress` to false to ensure that we can trust the value of
-  // the `Content-Length` HTTP header. We automatically uncompress the content
-  // in our call to [consolidateHttpClientResponseBytes].
-  static final HttpClient _sharedHttpClient = HttpClient()
-    ..autoUncompress = false;
-
-  static HttpClient get httpClient {
-    HttpClient client = _sharedHttpClient;
+  HttpClient get _httpClient {
+    HttpClient client = HttpClient()..autoUncompress = false;
+    if (proxy != null) {
+      client.findProxy = (Uri url) {
+        return 'PROXY $proxy';
+      };
+    }
     assert(() {
       if (debugNetworkImageHttpClientProvider != null) {
         client = debugNetworkImageHttpClientProvider!();

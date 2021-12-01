@@ -37,6 +37,7 @@ class ExtendedNetworkImageProvider
     this.cacheRawData = false,
     this.imageCacheName,
     this.cacheMaxAge,
+    this.proxy,
   });
 
   @override
@@ -81,6 +82,9 @@ class ExtendedNetworkImageProvider
   /// After this time the cache is expired and the image is reloaded.
   @override
   final Duration? cacheMaxAge;
+
+  /// HTTP proxy used to request the image.
+  final String? proxy;
 
   @override
   Future<ExtendedNetworkImageProvider> obtainKey(
@@ -164,6 +168,4 @@ class ExtendedNetworkImageProvider
   }) {
     return Future<Uint8List>.error('not support on web');
   }
-
-  static dynamic get httpClient => null;
 }
